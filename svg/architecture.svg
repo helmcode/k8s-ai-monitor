@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Fondo -->
+  <rect width="800" height="500" fill="#f8f9fa" />
+  
+  <!-- Clusters de Kubernetes -->
+  <g transform="translate(100, 80)">
+    <rect x="0" y="0" width="160" height="120" rx="10" fill="#326ce5" />
+    <text x="80" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">Kubernetes Cluster</text>
+    <text x="80" y="50" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Production</text>
+    <circle cx="40" cy="80" r="20" fill="white" opacity="0.8" />
+    <circle cx="80" cy="80" r="20" fill="white" opacity="0.8" />
+    <circle cx="120" cy="80" r="20" fill="white" opacity="0.8" />
+  </g>
+  
+  <g transform="translate(100, 230)">
+    <rect x="0" y="0" width="160" height="120" rx="10" fill="#326ce5" />
+    <text x="80" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">Kubernetes Cluster</text>
+    <text x="80" y="50" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Staging</text>
+    <circle cx="40" cy="80" r="20" fill="white" opacity="0.8" />
+    <circle cx="80" cy="80" r="20" fill="white" opacity="0.8" />
+    <circle cx="120" cy="80" r="20" fill="white" opacity="0.8" />
+  </g>
+  
+  <!-- Servidor MCP -->
+  <g transform="translate(320, 155)">
+    <rect x="0" y="0" width="180" height="140" rx="10" fill="#4d4d4d" />
+    <text x="90" y="30" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">MCP Server</text>
+    
+    <rect x="20" y="50" width="140" height="30" rx="5" fill="#6b6b6b" />
+    <text x="90" y="70" text-anchor="middle" fill="white" font-family="Arial" font-size="12">K8s API Client</text>
+    
+    <rect x="20" y="90" width="140" height="30" rx="5" fill="#6b6b6b" />
+    <text x="90" y="110" text-anchor="middle" fill="white" font-family="Arial" font-size="12">LLM Processor</text>
+  </g>
+  
+  <!-- LLM -->
+  <g transform="translate(560, 120)">
+    <rect x="0" y="0" width="160" height="100" rx="10" fill="#5d2f86" />
+    <text x="80" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">Claude 3.7</text>
+    <text x="80" y="60" text-anchor="middle" fill="white" font-family="Arial" font-size="14">LLM</text>
+    <path d="M40,75 C60,55 100,55 120,75" stroke="white" stroke-width="2" fill="none" />
+  </g>
+  
+  <!-- Slack -->
+  <g transform="translate(560, 250)">
+    <rect x="0" y="0" width="160" height="100" rx="10" fill="#4a154b" />
+    <text x="80" y="35" text-anchor="middle" fill="white" font-family="Arial" font-size="16" font-weight="bold">Slack</text>
+    <text x="80" y="60" text-anchor="middle" fill="white" font-family="Arial" font-size="14">Notifications</text>
+    <rect x="50" y="70" width="60" height="15" rx="3" fill="white" opacity="0.8" />
+  </g>
+  
+  <!-- Conexiones -->
+  <!-- K8s a MCP -->
+  <path d="M260,140 L320,200" stroke="#326ce5" stroke-width="3" fill="none" />
+  <path d="M260,290 L320,250" stroke="#326ce5" stroke-width="3" fill="none" />
+  
+  <!-- MCP a LLM -->
+  <path d="M500,190 L560,170" stroke="#5d2f86" stroke-width="3" fill="none" />
+  
+  <!-- MCP a Slack -->
+  <path d="M500,230 L560,280" stroke="#4a154b" stroke-width="3" fill="none" />
+
+  <!-- Título principal -->
+  <text x="400" y="40" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold" fill="#333">Kubernetes Assistant with MCP</text>
+</svg>
