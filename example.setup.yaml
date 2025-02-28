@@ -1,0 +1,15 @@
+monitor:
+  # Interval in seconds between checks
+  check_interval: 300
+  notifications:
+    - slack:
+        enabled: true
+        channel: "#tests"
+
+kubernetes:
+  namespaces: [default, kube-system]
+  kubeconfigs:
+    dev:
+      path: ~/.kube/dev
+    prod:
+      path: ~/.kube/prod

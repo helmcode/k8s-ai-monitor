@@ -91,3 +91,4 @@ kubeconfig
 .pytest_cache/
 .coverage
 htmlcov/
+setup.yaml
