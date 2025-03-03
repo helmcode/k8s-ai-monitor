@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from utils.logging import setup_logger
@@ -27,35 +27,44 @@ class SlackNotifier:
             channel = self.default_channel
 
         try:
+            # Prepare a more concise message
+            severity = issue.get("severity", "Medium")
+            severity_emoji = "🔴" if severity == "High" else "🟠" if severity == "Medium" else "🟡"
+
+            # Format the header with severity indicator and more context
+            header_text = f"{severity_emoji} {issue['issue_type']}: {issue['resource_name']}"
+
             blocks = [
                 {
                     "type": "header",
                     "text": {
                         "type": "plain_text",
-                        "text": f"⚠️ Kubernetes Alert: {issue['resource_type']} {issue['resource_name']}",
+                        "text": header_text,
                         "emoji": True
                     }
+                },
+                {
+                    "type": "divider"
                 },
                 {
                     "type": "section",
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": f"*Cluster:*\n{issue['cluster']}"
+                            "text": f"*🏗️ Cluster:*\n *{issue['cluster']}*"
                         },
                         {
                             "type": "mrkdwn",
-                            "text": f"*Namespace:*\n{issue['namespace']}"
-                        },
-                        {
-                            "type": "mrkdwn",
-                            "text": f"*Type:*\n{issue['issue_type']}"
-                        },
-                        {
-                            "type": "mrkdwn",
-                            "text": f"*Detected:*\n{issue['timestamp']}"
+                            "text": f"*📍 Namespace:*\n *{issue['namespace']}*"
                         }
                     ]
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": f"*🐞 Issue:* *{issue.get('description', 'No description provided')}*"
+                    }
                 },
                 {
                     "type": "divider"
@@ -64,33 +73,46 @@ class SlackNotifier:
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"*Diagnosis:*\n{diagnosis}"
+                        "text": f"*🤖 AI Diagnosis:*\n{diagnosis}"
                     }
                 }
             ]
-
 
             if recommendations:
                 blocks.append({
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"*Recommendations:*\n{recommendations}"
+                        "text": f"*AI Recommendations:*\n{recommendations}"
                     }
                 })
 
-            if "logs" in issue["details"] and issue["details"]["logs"]:
-                # Take only the last 5 lines to avoid saturation
-                logs = issue["details"]["logs"].strip().split("\n")[-5:]
-                log_text = "\n".join(logs)
+            # Add a small excerpt of logs if available
+            if "logs" in issue and issue["logs"]:
+                # Take only the last 3 lines to avoid saturation
+                if isinstance(issue["logs"], str):
+                    logs = issue["logs"].strip().split("\n")[-3:]
+                    log_text = "\n".join(logs)
 
-                blocks.append({
-                    "type": "section",
-                    "text": {
+                    # Show logs in a collapsed section to save space
+                    blocks.append({
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": f"*Recent Logs:*\n```{log_text}```"
+                        }
+                    })
+
+            # Add a link to view more details (if you have a dashboard or UI)
+            blocks.append({
+                "type": "context",
+                "elements": [
+                    {
                         "type": "mrkdwn",
-                        "text": f"*Relevant logs:*\n```{log_text}```"
+                        "text": f"Detected at: {issue['detected_at']}"
                     }
-                })
+                ]
+            })
 
             # Send message to Slack
             response = self.client.chat_postMessage(

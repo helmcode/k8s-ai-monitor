@@ -52,23 +52,17 @@ export ANTHROPIC_API_KEY="your-api-key"
 export SLACK_API_TOKEN="your-slack-token"
 ```
 
-### Configuration File
-The application uses a YAML configuration file (`setup.yaml`) with the following structure:
-```yaml
-monitor:
-  check_interval: 300  # Interval in seconds between checks
-  notifications:
-    - slack:
-        enabled: true
-        channel: "#tests"  # Slack channel for notifications
+if your hace EKS clusters, you need configure AWS CLI or export the following variables:
+```
+export AWS_ACCESS_KEY_ID="your-access-key-id"
+export AWS_SECRET_ACCESS_KEY="your-secret-access-key"
+export AWS_REGION="your-region"
+```
 
-kubernetes:
-  namespaces: [default, kube-system]  # Namespaces to monitor
-  kubeconfigs:
-    development:  # Cluster name
-      path: ~/.kube/dev  # Path to kubeconfig file
-    production:   # Cluster name
-      path: ~/.kube/prod  # Path to kubeconfig file
+### Configuration File
+The application uses a YAML configuration file (`setup.yaml`). Rename `example.setup.yaml` to `setup.yaml`.
+```
+mv example.setup.yaml setup.yaml
 ```
 
 ### Installation
@@ -83,3 +77,28 @@ kubernetes:
    ```
    python main.py
    ```
+
+## Monitored Kubernetes Issues
+
+The Kubernetes Assistant monitors the following types of issues:
+
+### Pod Status Issues
+- **CrashLoopBackOff**: Pods that continuously crash and restart
+- **ImagePullBackOff**: Pods that fail to pull their container images
+- **CreateContainerError**: Pods that fail during container creation
+- **OOMKilled**: Pods terminated due to out-of-memory conditions
+- **Terminated with Error**: Containers that exit with non-zero status codes
+- **Pending/Failed/Unknown**: Pods stuck in problematic phases
+
+### Resource Issues
+- **Container Restarts**: Containers that have excessive restart counts
+- **Resource Constraints**: Pods hitting CPU/memory limits
+
+### Event Analysis
+The assistant analyzes pod events to provide context about:
+- Scheduling problems
+- Node-related issues
+- Volume mount failures
+- Security context issues
+
+Every issue is analyzed by Claude 3.7 Sonnet to provide human-readable diagnoses and actionable recommendations, helping you resolve problems quickly and effectively.
