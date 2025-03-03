@@ -4,12 +4,14 @@ monitor:
   notifications:
     - slack:
         enabled: true
+        # Channel to send alerts
         channel: "#tests"
 
 kubernetes:
+  # Namespaces to monitor
   namespaces: [default, kube-system]
   kubeconfigs:
-    dev:
-      path: ~/.kube/dev
-    prod:
-      path: ~/.kube/prod
+    dev: # Cluster name (you can use any name you prefer)
+      path: ~/.kube/dev # Kubeconfig path
+    prod: # Cluster name (you can use any name you prefer)
+      path: ~/.kube/prod # Kubeconfig path
