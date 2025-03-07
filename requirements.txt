@@ -6,3 +6,4 @@ typer==0.9.0
 rich==13.7.0
 pyyaml==6.0.1
 pyinstaller==6.3.0
+anthropic==0.49.0

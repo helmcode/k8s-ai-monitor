@@ -44,9 +44,3 @@ def add_kubeconfig_flag(function):
     )(function)
 
     return function
-
-
-def print_kubeconfig_info(kubeconfig: str):
-    """Print information about the kubeconfig being used."""
-    if kubeconfig:
-        console.print(f"Using kubeconfig: [cyan bold]{kubeconfig}[/cyan bold]")

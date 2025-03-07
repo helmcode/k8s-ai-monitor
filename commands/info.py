@@ -17,13 +17,14 @@ def show_info():
     ## Available Commands
 
     * `info` - Show this information about the tool
+    * `pods` - Monitor pod health and get AI-powered analysis of issues
 
     ## Upcoming Features
 
-    * Cluster monitoring
-    * Issue detection
-    * AI-powered recommendations
+    * More resource types monitoring (deployments, services, etc.)
+    * Historical data tracking
     * Results export
+    * Integration with external monitoring systems
     """
 
     console.print(Panel(
@@ -42,5 +43,10 @@ def show_info():
     table.add_row(
         "kai info",
         "Show detailed information about the tool"
+    )
+
+    table.add_row(
+        "kai pods --kubeconfig ~/.kube/custom_path/config --namespace default,kube-system",
+        "Monitor pods in the default and kube-system namespaces"
     )
     console.print(table)
