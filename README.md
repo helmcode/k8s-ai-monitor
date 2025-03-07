@@ -17,19 +17,6 @@ Kubernetes Monitor CLI (kai) is a powerful command-line tool that helps you diag
 - **Rich terminal output**: Structured and color-coded display of issues, logs, and events
 - **Custom kubeconfig support**: Specify custom kubeconfig paths for different environments
 
-## Project Structure
-```
-kubernetes-monitor/
-├── ai/                 # AI integration with Claude
-├── commands/           # CLI command implementations
-├── display/            # Terminal UI components
-├── flags/              # CLI flag definitions
-├── monitor/            # Kubernetes monitoring logic
-├── main.py             # Main CLI entry point
-├── requirements.txt    # Project dependencies
-├── example.setup.yaml  # Example YAML configuration
-└── README.md           # This file
-```
 
 ## Installation
 
@@ -58,6 +45,12 @@ python main.py [command] [options]
 Or create an alias for easier access:
 ```
 alias kai="python /path/to/main.py"
+```
+
+Or compile the application:
+```
+pyinstaller main.spec
+ln -s dist/main/main /usr/local/bin/kai
 ```
 
 ## Commands
