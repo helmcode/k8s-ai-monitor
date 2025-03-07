@@ -92,3 +92,4 @@ kubeconfig
 .coverage
 htmlcov/
 setup.yaml
+old/
