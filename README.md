@@ -1,86 +1,86 @@
-# Kubernetes Assistant
+# Kubernetes Monitor CLI (kai)
 
 ![Architecture](./svg/architecture.svg)
 
 ## Overview
-The Kubernetes Assistant is an advanced monitoring tool that connects to your Kubernetes clusters to:
+Kubernetes Monitor CLI (kai) is a powerful command-line tool that helps you diagnose and troubleshoot Kubernetes clusters:
 
-- Diagnose pod and service issues through log and event analysis
-- Recommend optimal resource configurations based on usage patterns
-- Provide intelligent alerts via Slack with actionable recommendations
-- Detect inefficient or insecure configurations
+- Monitor pod health across multiple namespaces
+- Diagnose pod issues with AI-powered analysis
+- Get actionable recommendations for resolving common Kubernetes problems
+- View relevant logs and events in a structured format
 
 ## Features
-- **Multi-cluster monitoring**: Connect to and monitor multiple Kubernetes clusters simultaneously
-- **Intelligent analysis**: Uses Claude 3.7 Sonnet LLM to analyze issues and provide human-readable diagnoses
-- **Actionable recommendations**: Provides specific recommendations to resolve detected issues
-- **Slack integration**: Sends formatted alerts with relevant context to Slack channels
+- **Command-line interface**: Simple and intuitive CLI for monitoring Kubernetes resources
+- **Multi-namespace monitoring**: Monitor pods across one or more namespaces
+- **AI-powered analysis**: Uses Claude 3.7 Sonnet to analyze issues and provide human-readable diagnoses
+- **Rich terminal output**: Structured and color-coded display of issues, logs, and events
+- **Custom kubeconfig support**: Specify custom kubeconfig paths for different environments
 
 ## Project Structure
 ```
 kubernetes-monitor/
-├── config/             # Configuration management
-├── k8s/                # Kubernetes monitoring logic
-├── llm/                # LLM processing for analysis
-├── notifications/      # Notification services (Slack)
-├── utils/              # Utility functions
-├── main.py             # Main application entry point
+├── ai/                 # AI integration with Claude
+├── commands/           # CLI command implementations
+├── display/            # Terminal UI components
+├── flags/              # CLI flag definitions
+├── monitor/            # Kubernetes monitoring logic
+├── main.py             # Main CLI entry point
 ├── requirements.txt    # Project dependencies
-├── setup.yaml          # YAML configuration file
+├── example.setup.yaml  # Example YAML configuration
 └── README.md           # This file
 ```
 
-## Setup
+## Installation
 
 ### Prerequisites
-- Python 3.12+
+- Python 3.9+
 - Access to Kubernetes clusters
-- Slack workspace with bot permissions
-- Anthropic API key for Claude
+- Anthropic API key (optional, for AI-powered analysis)
 
-### Slack Setup
-1. Create a Slack app in your workspace
-2. Add the following Bot Token Scopes:
-   - `chat:write`
-3. Install the app to your workspace
-4. Invite the bot to the channels where you want to receive alerts
-
-### Environment Variables
-Export the following variables:
-```
-export ANTHROPIC_API_KEY="your-api-key"
-export SLACK_API_TOKEN="your-slack-token"
-```
-
-if your hace EKS clusters, you need configure AWS CLI or export the following variables:
-```
-export AWS_ACCESS_KEY_ID="your-access-key-id"
-export AWS_SECRET_ACCESS_KEY="your-secret-access-key"
-export AWS_REGION="your-region"
-```
-
-### Configuration File
-The application uses a YAML configuration file (`setup.yaml`). Rename `example.setup.yaml` to `setup.yaml`.
-```
-mv example.setup.yaml setup.yaml
-```
-
-### Installation
+### Setup
 1. Clone the repository
 2. Install dependencies:
    ```
    pip install -r requirements.txt
    ```
-3. Export environment variables
-4. Create a `setup.yaml` file with your configuration
-5. Run the application:
+3. (Optional) Set environment variables for AI analysis:
    ```
-   python main.py
+   export ANTHROPIC_API_KEY="your-api-key"
    ```
+
+### Usage
+Run the CLI tool directly:
+```
+python main.py [command] [options]
+```
+
+Or create an alias for easier access:
+```
+alias kai="python /path/to/main.py"
+```
+
+## Commands
+
+### info
+Display information about the tool and available commands.
+```
+kai info
+```
+
+### pods
+Monitor pod health in specified namespaces.
+```
+kai pods [--kubeconfig PATH] [--namespace NAMESPACE1,NAMESPACE2]
+```
+
+Options:
+- `--kubeconfig, -k`: Path to the kubeconfig file (defaults to `~/.kube/config`)
+- `--namespace, -n`: Kubernetes namespaces to monitor (defaults to `default`)
 
 ## Monitored Kubernetes Issues
 
-The Kubernetes Assistant monitors the following types of issues:
+Kubernetes Monitor CLI tracks the following types of pod issues:
 
 ### Pod Status Issues
 - **CrashLoopBackOff**: Pods that continuously crash and restart
@@ -94,11 +94,8 @@ The Kubernetes Assistant monitors the following types of issues:
 - **Container Restarts**: Containers that have excessive restart counts
 - **Resource Constraints**: Pods hitting CPU/memory limits
 
-### Event Analysis
-The assistant analyzes pod events to provide context about:
-- Scheduling problems
-- Node-related issues
-- Volume mount failures
-- Security context issues
-
-Every issue is analyzed by Claude 3.7 Sonnet to provide human-readable diagnoses and actionable recommendations, helping you resolve problems quickly and effectively.
+### AI Analysis
+When an Anthropic API key is provided, each issue is analyzed by Claude 3.7 Sonnet to provide:
+- Concise diagnosis of the root cause
+- Specific, actionable recommendations to resolve the issue
+- Context-aware analysis based on pod logs and events
