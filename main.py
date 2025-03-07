@@ -4,6 +4,7 @@ from rich.console import Console
 from commands.info import show_info
 from commands.pods import monitor_pods
 from flags.kubeconfig import get_kubeconfig_option
+from flags.namespace import get_namespace_option, process_namespaces
 
 
 app = typer.Typer(
@@ -24,28 +25,9 @@ def info_command():
 @app.command("pods")
 def pods_command(
     kubeconfig: Optional[str] = get_kubeconfig_option(),
-    namespace: Optional[List[str]] = typer.Option(
-        ["default"],
-        "--namespace", "-n",
-        help="Kubernetes namespaces to monitor. Use multiple --namespace flags or comma-separated values (e.g., --namespace ns1,ns2,ns3)",
-        show_default=True
-    )
+    namespace: Optional[List[str]] = get_namespace_option()
 ):
-    # Process namespaces - handle comma-separated values
-    processed_namespaces = []
-    for ns in namespace:
-        # Split by comma if present
-        if "," in ns:
-            processed_namespaces.extend([n.strip() for n in ns.split(",")])
-        else:
-            processed_namespaces.append(ns)
-
-    # Remove duplicates while preserving order
-    unique_namespaces = []
-    for ns in processed_namespaces:
-        if ns not in unique_namespaces:
-            unique_namespaces.append(ns)
-
+    unique_namespaces = process_namespaces(namespace)
     console.print(f"[bold]Monitoring namespaces:[/bold] {', '.join(unique_namespaces)}")
     monitor_pods(kubeconfig=kubeconfig, namespaces=unique_namespaces)
 

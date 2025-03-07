@@ -29,6 +29,7 @@ def display_issue(issue: Dict[str, Any], analysis: Dict[str, str]):
     # Display issue details
     console.print(f"[bold]Description:[/bold] {issue['description']}")
     console.print(f"[bold]Detected at:[/bold] {issue['detected_at']}")
+    console.print(f"[bold]Namespace:[/bold] {issue['namespace']}")
     console.print()
 
     # Display AI analysis
