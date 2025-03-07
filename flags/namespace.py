@@ -6,22 +6,17 @@ console = Console()
 
 def get_namespace_option():
     """
-    Returns a reusable namespace option for Typer commands
+    Returns the default value for the namespace option
 
     Returns:
-        A decorator function that adds the namespace option to a Typer command
+        Default value for the namespace option
     """
-    def decorator(function):
-        function = typer.Option(
-            ["default"],
-            "--namespace", "-n",
-            help="Kubernetes namespaces to monitor. Use multiple --namespace flags or comma-separated values (e.g., --namespace ns1,ns2,ns3)",
-            show_default=True
-        )(function)
-
-        return function
-
-    return decorator
+    return typer.Option(
+        ["default"],
+        "--namespace", "-n",
+        help="Kubernetes namespaces to monitor. Use multiple --namespace flags or comma-separated values (e.g., --namespace ns1,ns2,ns3)",
+        show_default=True
+    )
 
 
 def process_namespaces(namespace_list: List[str]) -> List[str]:

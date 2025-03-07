@@ -59,14 +59,14 @@ def monitor_pods(kubeconfig: str, namespaces: List[str]):
                         except Exception as e:
                             console.print(f"[bold red]Error using Claude analyzer: {str(e)}[/bold red]")
                             analysis = {
-                                "diagnosis": "Error al analizar con Claude AI",
-                                "recommendations": "Se requiere una conexión activa con Claude AI para analizar este problema."
+                                "diagnosis": "Error analyzing with Claude AI",
+                                "recommendations": "An active connection with Claude AI is required to analyze this issue."
                             }
                     else:
-                        console.print("[bold yellow]Se requiere la API key de Claude para realizar el análisis.[/bold yellow]")
+                        console.print("[bold yellow]Claude AI API key is required for analysis.[/bold yellow]")
                         analysis = {
-                            "diagnosis": "No se pudo realizar el análisis",
-                            "recommendations": "Configure la variable de entorno ANTHROPIC_API_KEY para habilitar el análisis con Claude AI."
+                            "diagnosis": "Analysis could not be performed",
+                            "recommendations": "Set the ANTHROPIC_API_KEY environment variable to enable analysis with Claude AI."
                         }
 
                     display_issue(issue, analysis)
